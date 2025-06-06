@@ -1,0 +1,127 @@
+MultimodalGenerativeCVAE(
+  (model_registrar): ModelRegistrar(
+    (model_dict): ModuleDict(
+      (PEDESTRIAN/node_history_encoder): NodeHistoryEncoder(
+        (lstm): LSTM(8, 32, batch_first=True)
+      )
+      (PEDESTRIAN/node_future_encoder): NodeFutureEncoder(
+        (lstm): LSTM(2, 32, batch_first=True, bidirectional=True)
+        (initial_h_model): Linear(in_features=8, out_features=32, bias=True)
+        (initial_c_model): Linear(in_features=8, out_features=32, bias=True)
+      )
+      (PEDESTRIAN/edge_influence_encoder): MultiheadAttention(
+        (out_proj): NonDynamicallyQuantizableLinear(in_features=32, out_features=32, bias=True)
+      )
+      (UNKNOWN->PEDESTRIAN/edge_encoder): EdgeEncoder(
+        (lstm): LSTM(16, 32, batch_first=True)
+      )
+      (VEHICLE->PEDESTRIAN/edge_encoder): EdgeEncoder(
+        (lstm): LSTM(16, 32, batch_first=True)
+      )
+      (PEDESTRIAN->PEDESTRIAN/edge_encoder): EdgeEncoder(
+        (lstm): LSTM(16, 32, batch_first=True)
+      )
+      (BICYCLE->PEDESTRIAN/edge_encoder): EdgeEncoder(
+        (lstm): LSTM(16, 32, batch_first=True)
+      )
+      (MOTORCYCLE->PEDESTRIAN/edge_encoder): EdgeEncoder(
+        (lstm): LSTM(16, 32, batch_first=True)
+      )
+      (PEDESTRIAN/p_z_x): LatentDistEncoder(
+        (p_dist): Linear(in_features=64, out_features=32, bias=True)
+        (h_dist): Linear(in_features=32, out_features=25, bias=True)
+      )
+      (PEDESTRIAN/q_z_xy): LatentDistEncoder(
+        (h_dist): Linear(in_features=192, out_features=25, bias=True)
+      )
+      (PEDESTRIAN/decoder/PreGRU): DecoderPreGRU(
+        (state_action): Linear(in_features=8, out_features=2, bias=True)
+        (initial_h): Linear(in_features=89, out_features=128, bias=True)
+      )
+      (PEDESTRIAN/decoder/GRU): DecoderGRU(
+        (rnn_cell): GRUCell(91, 128)
+        (post_rnn): Linear(in_features=128, out_features=64, bias=True)
+      )
+      (PEDESTRIAN/decoder/GMM): DecoderGMM(
+        (proj_to_log_pis): Linear(in_features=64, out_features=1, bias=True)
+        (proj_to_mus): Linear(in_features=64, out_features=2, bias=True)
+        (proj_to_log_sigmas): Linear(in_features=64, out_features=2, bias=True)
+        (proj_to_corrs): Linear(in_features=64, out_features=1, bias=True)
+      )
+      (snce): SocialNCE(
+        (head_projection): ProjHead(
+          (head): Sequential(
+            (0): Linear(in_features=64, out_features=32, bias=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=32, out_features=8, bias=True)
+          )
+        )
+        (encoder_sample): EventEncoder(
+          (temporal): Sequential(
+            (0): Linear(in_features=1, out_features=8, bias=True)
+            (1): ReLU(inplace=True)
+          )
+          (spatial): Sequential(
+            (0): Linear(in_features=2, out_features=8, bias=True)
+            (1): ReLU(inplace=True)
+          )
+          (encoder): Sequential(
+            (0): Linear(in_features=16, out_features=8, bias=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=8, out_features=8, bias=True)
+          )
+        )
+        (criterion): CrossEntropyLoss()
+      )
+    )
+  )
+  (node_modules): ModuleDict(
+    (PEDESTRIAN/node_history_encoder): NodeHistoryEncoder(
+      (lstm): LSTM(8, 32, batch_first=True)
+    )
+    (PEDESTRIAN/node_future_encoder): NodeFutureEncoder(
+      (lstm): LSTM(2, 32, batch_first=True, bidirectional=True)
+      (initial_h_model): Linear(in_features=8, out_features=32, bias=True)
+      (initial_c_model): Linear(in_features=8, out_features=32, bias=True)
+    )
+    (PEDESTRIAN/edge_influence_encoder): MultiheadAttention(
+      (out_proj): NonDynamicallyQuantizableLinear(in_features=32, out_features=32, bias=True)
+    )
+    (UNKNOWN->PEDESTRIAN/edge_encoder): EdgeEncoder(
+      (lstm): LSTM(16, 32, batch_first=True)
+    )
+    (VEHICLE->PEDESTRIAN/edge_encoder): EdgeEncoder(
+      (lstm): LSTM(16, 32, batch_first=True)
+    )
+    (PEDESTRIAN->PEDESTRIAN/edge_encoder): EdgeEncoder(
+      (lstm): LSTM(16, 32, batch_first=True)
+    )
+    (BICYCLE->PEDESTRIAN/edge_encoder): EdgeEncoder(
+      (lstm): LSTM(16, 32, batch_first=True)
+    )
+    (MOTORCYCLE->PEDESTRIAN/edge_encoder): EdgeEncoder(
+      (lstm): LSTM(16, 32, batch_first=True)
+    )
+    (PEDESTRIAN/p_z_x): LatentDistEncoder(
+      (p_dist): Linear(in_features=64, out_features=32, bias=True)
+      (h_dist): Linear(in_features=32, out_features=25, bias=True)
+    )
+    (PEDESTRIAN/q_z_xy): LatentDistEncoder(
+      (h_dist): Linear(in_features=192, out_features=25, bias=True)
+    )
+    (PEDESTRIAN/decoder/PreGRU): DecoderPreGRU(
+      (state_action): Linear(in_features=8, out_features=2, bias=True)
+      (initial_h): Linear(in_features=89, out_features=128, bias=True)
+    )
+    (PEDESTRIAN/decoder/GRU): DecoderGRU(
+      (rnn_cell): GRUCell(91, 128)
+      (post_rnn): Linear(in_features=128, out_features=64, bias=True)
+    )
+    (PEDESTRIAN/decoder/GMM): DecoderGMM(
+      (proj_to_log_pis): Linear(in_features=64, out_features=1, bias=True)
+      (proj_to_mus): Linear(in_features=64, out_features=2, bias=True)
+      (proj_to_log_sigmas): Linear(in_features=64, out_features=2, bias=True)
+      (proj_to_corrs): Linear(in_features=64, out_features=1, bias=True)
+    )
+  )
+)
